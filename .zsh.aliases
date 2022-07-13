@@ -1,0 +1,19 @@
+##################################################################
+#
+#         .zsh_files/.zsh.aliases file
+#
+#         Read in every time a new interactive zsh is started.
+#         Defines some useful aliases.
+#
+##################################################################
+
+alias RM='rm -f'
+
+alias c='clear'
+alias ls="ls --color=auto -F" # color ls is cool
+alias la="ls -la"
+alias ll="ls -lh"
+alias lla="ls -lah"
+alias view="vim -R"
+alias l='less'
+alias emount='sudo mkdir /mnt/u; sudo mount -t drvfs U: /mnt/u'
