@@ -14,9 +14,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 unset MAIL
 
 # Get other shell configuration
-source $HOME/.zsh.prompt                            # set the prompt
-source $HOME/.zsh.path                              # setup the PATH
-source $HOME/.zsh.manpath                           # setup the MANPATH
 source $HOME/.zsh.aliases                           # setup command aliases
 source $HOME/powerlevel10k/powerlevel10k.zsh-theme  # ???
 
