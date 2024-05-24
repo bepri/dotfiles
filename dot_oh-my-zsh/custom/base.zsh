@@ -8,3 +8,5 @@ setopt noflowcontrol    # Disables ^S/^Q in line-edit mode
 setopt correct          # Enables name correction suggestions
 
 unsetopt HIST_VERIFY
+
+. "$HOME/.cargo/env"
