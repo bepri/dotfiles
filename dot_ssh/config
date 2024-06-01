@@ -1,8 +1,0 @@
-Host *
-  IdentityAgent ~/.1password/agent.sock
-
-Host gh github.com
-    HostName github.com
-    User git
-    RequestTTY no
-    IdentityFile "op://Personal/Git Signing Key/private key"
