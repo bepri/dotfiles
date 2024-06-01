@@ -5,3 +5,4 @@ Host gh github.com
     HostName github.com
     User git
     RequestTTY no
+    IdentityFile "op://Personal/Git Signing Key/private key"

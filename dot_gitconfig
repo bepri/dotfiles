@@ -1,5 +1,16 @@
 [user]
 	email = imani@bepri.dev
 	name = Imani Pelton
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHrjSmZJVOjxrQhseTf1OIIBxF7UqE8MG8yj2la0zztc
+
 [init]
 	defaultBranch = main
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    program = "/opt/1Password/op-ssh-sign"
+
+[commit]
+    gpgsign = true

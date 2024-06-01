@@ -10,3 +10,5 @@ setopt correct          # Enables name correction suggestions
 unsetopt HIST_VERIFY
 
 . "$HOME/.cargo/env"
+
+alias reflect="sudo reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist"
