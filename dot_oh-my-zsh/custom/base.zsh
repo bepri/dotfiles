@@ -9,6 +9,8 @@ setopt correct          # Enables name correction suggestions
 
 unsetopt HIST_VERIFY
 
-. "$HOME/.cargo/env"
+if [ -f "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+fi
 
 alias reflect="sudo reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist"
