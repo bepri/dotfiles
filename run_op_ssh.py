@@ -101,8 +101,10 @@ class SSHConfigEntry:
         Args:
             path (str): Path to output the key file
         """
-        with open(os.path.join(path, self.keyname + '.pub'), 'w') as fout:
+        fullpath = os.path.join(path, self.keyname + '.pub')
+        with open(fullpath, 'w') as fout:
             fout.write(self.key)
+        os.chmod(fullpath, 0o600)
             
     def serialize(self, path: str) -> str:
         """Represent this class instance as a valid SSH config entry
@@ -177,6 +179,22 @@ def make_config(entries: list[SSHConfigEntry], path: str) -> None:
         for entry in entries:
             fout.write('\n')
             fout.write(entry.serialize(path))
+    
+    os.chmod(path, 0o700)
+    os.chmod(os.path.join(path, 'config'), 0o600)
+
+def question(q: str, default: str = 'y') -> bool:
+    res = input(q).lower()
+    if not res:
+        res = default
+
+    match res:
+        case 'y':
+            return True
+        case 'n':
+            return False
+        case _:
+            return question(q, default=default)
 
 def main():
     # Identify the 1Password CLI and quit if it's not installed
@@ -190,14 +208,14 @@ def main():
     print('Generating a new SSH directory...')
 
     # Create a backup of the old directory if applicable!
+    known_hosts = None
     path = get_ssh_path()
     if os.path.exists(path):
-        while True:
-            match input('This will replace your existing directory, but a backup will be made. Continue? (Y/n) ').lower().strip():
-                case 'y' | '':
-                    break
-                case 'n':
-                    sys.exit(0)
+        if not question('This will replace your existing directory, but a backup will be made. Continue? (Y/n) '):
+            sys.exit(0)
+        if question('Preserve known_hosts file? Recommended to answer "n" if you don\'t know what this is. (Y/n) '):
+            with open(os.path.join(path, 'known_hosts'), 'r') as fin:
+                known_hosts = fin.read()
     
     # Get all SSH Key entries by ID
     get_entries_res = call_shell(f'{OP_EXE} item list --categories SSHKEY --format json')
@@ -205,8 +223,8 @@ def main():
     for key in json.loads(get_entries_res):
         # Omit the signing key - this is hardcoded! :(
         if re.search('signing', key['title'], re.IGNORECASE):
-            print(f'Omitting {key['title']} - this key appears to be for signing!')
-            continue
+            if not question(f'Key "{key['title']}" appears to be for signing. Load anyways? (y/N) ', default='n'):
+                continue
 
         key_ids.append(key['id'])
 
@@ -218,6 +236,11 @@ def main():
         entries.append(entry)
 
     make_config(entries, path)
+    # Restore the known_hosts file if desired
+    if known_hosts:
+        with open(os.path.join(path, 'known_hosts'), 'w') as fout:
+            fout.write(known_hosts)
+        os.chmod(os.path.join(path, 'known_hosts'), 0o600)
 
 if __name__ == '__main__':
     main()
