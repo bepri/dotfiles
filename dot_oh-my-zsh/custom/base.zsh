@@ -13,7 +13,7 @@ if [ -f "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
 
-which op
+which op >/dev/null 2>&1
 if [ $? -eq 0 ]; then
     export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
 fi
