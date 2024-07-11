@@ -13,4 +13,10 @@ if [ -f "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
 
+which op
+if [ $? -eq 0 ]; then
+    export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
+fi
+
+
 alias reflect="sudo reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist"
