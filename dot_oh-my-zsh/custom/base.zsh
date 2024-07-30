@@ -9,14 +9,15 @@ setopt correct          # Enables name correction suggestions
 
 unsetopt HIST_VERIFY
 
+# Some optional imports if the appropriate programs are installed
 if [ -f "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
-
-which op >/dev/null 2>&1
-if [ $? -eq 0 ]; then
+if [ -d $HOME/.1password ]; then
     export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
 fi
 
+# PATH extensions
+export PATH=$HOME/.local/bin:$PATH
 
 alias reflect="sudo reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist"
