@@ -16,6 +16,9 @@ fi
 if [ -d $HOME/.1password ]; then
     export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
 fi
+if [ -d $HOME/.dotnet ]; then
+    export PATH=$HOME/.dotnet/tools:$PATH
+fi
 
 # PATH extensions
 export PATH=$HOME/.local/bin:$PATH
