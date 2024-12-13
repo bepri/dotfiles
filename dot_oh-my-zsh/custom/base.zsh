@@ -20,10 +20,10 @@ fi
 if [ -d $HOME/.dotnet ]; then
     export PATH=$HOME/.dotnet/tools:$PATH
 fi
-if [ $(which uv) ]; then
+if [ "$(which uv)" ]; then
     alias pip="uv pip"
 fi
-if [ $(which go) ]; then
+if [ "$(which go)" ]; then
     export PATH=$HOME/go/bin:$PATH
 fi
 if [ -d $HOME/canonical ]; then
