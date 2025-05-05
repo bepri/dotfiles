@@ -1,16 +1,45 @@
 [user]
-	email = imani@bepri.dev
+	email = imani.pelton@canonical.com
 	name = Imani Pelton
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHrjSmZJVOjxrQhseTf1OIIBxF7UqE8MG8yj2la0zztc
+	signingKey = 1241E96B2B9C7460
 
 [init]
 	defaultBranch = main
-
-[gpg]
-	format = ssh
-
-[gpg "ssh"]
-	program = "/opt/1Password/op-ssh-sign"
-
+[core]
+	pager = delta
+	editor = codium -w
+	fsmonitor = true
+	untrackedCache = true
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+[merge]
+	conflictStyle = zdiff3
 [commit]
 	gpgsign = true
+	verbose = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[push]
+	autoSetupRemote = true
+[help]
+	autocorrect = prompt
+[rerere]
+	enabled = true
+	autoupdate = true
+[pull]
+	rebase = true
