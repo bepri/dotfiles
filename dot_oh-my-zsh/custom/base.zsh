@@ -14,9 +14,6 @@ bindkey '^H' backward-kill-word
 if [ -f "$HOME/.cargo/env" ]; then
     . "$HOME/.cargo/env"
 fi
-if [ -d $HOME/.1password ]; then
-    export SSH_AUTH_SOCK=$HOME/.1password/agent.sock
-fi
 if [ -d $HOME/.dotnet ]; then
     export PATH=$HOME/.dotnet/tools:$PATH
 fi
@@ -34,3 +31,4 @@ fi
 export PATH=$HOME/.local/bin:$PATH
 
 alias reflect="sudo reflector --verbose --country 'United States' -l 5 --sort rate --save /etc/pacman.d/mirrorlist"
+alias ls="lsd"
