@@ -60,5 +60,8 @@ end
 if not functions -q fisher
     echo "Installing fisher..."
     curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+    # Set up ssh directory so the ssh_agent_plugin doesn't scream
+    mkdir -p ~/.ssh
+    chmod 700 ~/.ssh
     fisher update < ~/.config/fish/fish_plugins
 end
