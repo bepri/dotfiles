@@ -22,23 +22,32 @@ end
 
 cargo install --locked bat
 
-set -l apt_tools \
-    git-delta    \
-    rg           \
-    fd-find
+# Parallel arrays: apt package name -> cargo crate (empty = no fallback)
+set -l apt_packages  build-essential  git-delta  rg        fd-find
+set -l cargo_crates  ""               git-delta  ripgrep   fd-find
 
-set -l to_install
-for pkg in $apt_tools
-    if apt-cache show $pkg &>/dev/null
-        set -a to_install $pkg
+set -l apt_to_install
+set -l cargo_to_install
+
+for i in (seq (count $apt_packages))
+    if apt-cache show $apt_packages[$i] &>/dev/null
+        set -a apt_to_install $apt_packages[$i]
+    else if test -n "$cargo_crates[$i]"
+        echo "⚠ apt package not found, will use cargo: $apt_packages[$i]"
+        set -a cargo_to_install $cargo_crates[$i]
     else
-        echo "⚠ Package not found, skipping: $pkg"
+        echo "⚠ apt package not found, no fallback available: $apt_packages[$i]"
     end
 end
 
-if test (count $to_install) -gt 0
-    echo "fetching: $to_install"
-    sudo apt install -y $to_install
+if test (count $apt_to_install) -gt 0
+    echo "fetching via apt: $apt_to_install"
+    sudo apt install -y $apt_to_install
 end
-set -e apt_tools
-set -e to_install
+
+if test (count $cargo_to_install) -gt 0
+    echo "fetching via cargo: $cargo_to_install"
+    for crate in $cargo_to_install
+        cargo install --locked $crate
+    end
+end

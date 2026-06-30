@@ -35,6 +35,8 @@ function lxc-launch
 
      echo "Installing fish and creating imani user..."
      lxc exec $container -- bash -c '
+         add-apt-repository -y ppa:fish-shell/release-4
+         apt-get update
          apt-get install -y -q fish
          useradd -m -s /usr/bin/fish -G sudo imani
          echo "imani ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/imani
@@ -42,9 +44,12 @@ function lxc-launch
      '
 
      echo "Applying dotfiles..."
-     set imani_uid (lxc exec $container -- id -u imani)
+     lxc exec $container -- \
+         sh -c 'sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin'
+
+     # Run chezmoi as imani with a proper logind session
      lxc exec $container -- su -l imani -c \
-         'sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/bepri/dotfiles'
+         'chezmoi init --apply https://github.com/bepri/dotfiles'
 
      echo "Done. Container $container is ready."
  end
