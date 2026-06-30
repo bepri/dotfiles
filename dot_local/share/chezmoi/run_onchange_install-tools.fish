@@ -55,3 +55,10 @@ if test (count $cargo_to_install) -gt 0
         cargo install -q $crate
     end
 end
+
+# Configure fish plugins
+if not functions -q fisher
+    echo "Installing fisher..."
+    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+    fisher update < ~/.config/fish/fish_plugins
+end
