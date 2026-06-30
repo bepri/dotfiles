@@ -35,6 +35,8 @@ function lxc-launch
 
      echo "Installing fish and creating imani user..."
      lxc exec $container -- bash -c '
+         export DEBIAN_FRONTEND=noninteractive
+         export NEEDRESTART_MODE=a
          add-apt-repository -y ppa:fish-shell/release-4
          apt-get update
          apt-get install -y -q fish

@@ -1,5 +1,8 @@
 #!/usr/bin/env fish
 
+# Just always install this early
+sudo apt install build-essential -y
+
 # cargo
 if not command -q cargo
     if command -q snap
@@ -13,6 +16,7 @@ end
 
 # pnpm
 if not command -q pnpm
+    sudo apt install libatomic1 -y
     curl -fsSL https://get.pnpm.io/install.sh | sh
     # Restore config from pnpm setup
     # https://github.com/pnpm/get.pnpm.io/issues/37
@@ -23,8 +27,8 @@ end
 cargo install --locked bat
 
 # Parallel arrays: apt package name -> cargo crate (empty = no fallback)
-set -l apt_packages  build-essential  git-delta  ripgrep   fd-find
-set -l cargo_crates  ""               git-delta  ripgrep   fd-find
+set -l apt_packages  git-delta  ripgrep   fd-find
+set -l cargo_crates  git-delta  ripgrep   fd-find
 
 set -l apt_to_install
 set -l cargo_to_install
@@ -48,6 +52,6 @@ end
 if test (count $cargo_to_install) -gt 0
     echo "fetching via cargo: $cargo_to_install"
     for crate in $cargo_to_install
-        cargo install --locked $crate
+        cargo install $crate
     end
 end
