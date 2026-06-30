@@ -18,9 +18,13 @@ function lxc-launch
 
      # Infer container name: non-flag arg without ':' (images always have ':')
      set container ""
+     set minimal false
      for arg in $pass_args
          if not string match -qr -- '^-|:' $arg
              set container $arg
+         end
+         if test "$arg" = "--minimal"
+             set minimal true
          end
      end
 
@@ -46,6 +50,10 @@ function lxc-launch
      echo "Applying dotfiles..."
      lxc exec $container -- \
          sh -c 'sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin'
+
+    if $minimal
+        lxc exec $container -- su -l imani -c 'mkdir -p ~/.config && echo "THIS FILE IS BLOCKING CARGO INSTALLS FROM CHEZMOI" > ~/.config/.no-cargo'
+    end
 
      # Run chezmoi as imani with a proper logind session
      lxc exec --env DEBIAN_FRONTEND=noninteractive --env NEEDRESTART_MODE=a $container -- su -l imani -c \

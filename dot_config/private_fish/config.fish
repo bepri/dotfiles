@@ -13,14 +13,6 @@ set -l extra_paths \
     ~/go/bin       \
     "$PNPM_HOME/bin"
 
-###################
-# Bespoke section #
-###################
-#
-# This area of the config is for one-off configuration scriptlets that aren't so modular that they
-# can be abstracted with the help of the "easy" section above, but aren't so complex that they
-# should be buried under the "read-only" section
-
 #####################
 # Read-only section #
 #####################
@@ -41,3 +33,9 @@ set -Ux VIRTUAL_ENV_DISABLE_PROMPT true
 
 # Silence!
 set -U fish_greeting ""
+
+if systemd-detect-virt -cq 2>/dev/null
+    set -g tide_pwd_bg_color 4B0000
+    set -g tide_pwd_color_dirs AF5F5F
+    set -g tide_pwd_color_anchors FF8787
+end

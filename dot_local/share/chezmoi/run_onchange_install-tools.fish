@@ -47,9 +47,13 @@ if test (count $apt_to_install) -gt 0
 end
 
 if test (count $cargo_to_install) -gt 0
-    echo "fetching via cargo: $cargo_to_install"
-    for crate in $cargo_to_install
-        cargo install -q $crate
+    if test -f ~/.config/.no-cargo
+        echo "skipping cargo installs, found ~/.config/.no-cargo"
+    else
+        echo "fetching via cargo: $cargo_to_install"
+        for crate in $cargo_to_install
+            cargo install -q $crate
+        end
     end
 end
 
