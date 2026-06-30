@@ -23,7 +23,7 @@ end
 cargo install --locked bat
 
 # Parallel arrays: apt package name -> cargo crate (empty = no fallback)
-set -l apt_packages  build-essential  git-delta  rg        fd-find
+set -l apt_packages  build-essential  git-delta  ripgrep   fd-find
 set -l cargo_crates  ""               git-delta  ripgrep   fd-find
 
 set -l apt_to_install
