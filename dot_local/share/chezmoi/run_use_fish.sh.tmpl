@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+KEY_ID="{{ .key_id }}"
+
+if ! gpg --list-keys "$KEY_ID" &>/dev/null; then
+    echo ""
+    echo "⚠ GPG key $KEY_ID not found. To import from your YubiKey:"
+    echo ""
+    echo "  gpg --edit-card  # then: fetch, quit"
+    echo "  gpg --edit-key $KEY_ID  # then: trust, 5, y, quit"
+    echo ""
+elif [ "$(gpg --list-keys --with-colons "$KEY_ID" | awk -F: '/^pub/{print $9}')" != "u" ]; then
+    echo ""
+    echo "⚠ GPG key $KEY_ID is not ultimately trusted. To fix:"
+    echo "  gpg --edit-key $KEY_ID  # then: trust, 5, y, quit"
+    echo ""
+fi
+
+echo "✓ Done. Run 'exec fish' to use updates."
