@@ -70,6 +70,8 @@ if not functions -q tide
     command cp -R $_tide_tmp_dir/*/{completions,conf.d,functions} $__fish_config_dir
     fish -c "emit _tide_init_install"
     set -e _tide_tmp_dir
+    # Forcefully load tide for this line
+    source $__fish_config_dir/functions/tide.fish
     tide configure --auto \
 		--style=Classic \
 		--prompt_colors='True color' \
@@ -89,11 +91,11 @@ end
 
 # Configure fish plugins
 if not functions -q fisher
-    echo "Installing fisher..."
-    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
-    fisher install jorgebucaran/fisher
     # Set up ssh directory so the ssh_agent_plugin doesn't scream
     mkdir -p ~/.ssh
     chmod 700 ~/.ssh
+    echo "Installing fisher..."
+    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+    fisher install jorgebucaran/fisher
     fisher update < ~/.config/fish/fish_plugins
 end
