@@ -1,9 +1,12 @@
 function lxc-launch
      set pure false
+     set minimal false
      set pass_args
      for arg in $argv
          if test "$arg" = --pure
              set pure true
+         else if test "$arg" = --minimal
+             set minimal true
          else
              set pass_args $pass_args $arg
          end
@@ -18,13 +21,9 @@ function lxc-launch
 
      # Infer container name: non-flag arg without ':' (images always have ':')
      set container ""
-     set minimal false
      for arg in $pass_args
          if not string match -qr -- '^-|:' $arg
              set container $arg
-         end
-         if test "$arg" = "--minimal"
-             set minimal true
          end
      end
 

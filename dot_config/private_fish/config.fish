@@ -35,7 +35,7 @@ set -Ux VIRTUAL_ENV_DISABLE_PROMPT true
 set -U fish_greeting ""
 
 if systemd-detect-virt -cq 2>/dev/null
-    set -g tide_pwd_bg_color 4B0000
-    set -g tide_pwd_color_dirs AF5F5F
-    set -g tide_pwd_color_anchors FF8787
+    set -g tide_pwd_color_dirs 8787AF
+    set -g tide_pwd_color_anchors AF87FF
+    set -g tide_pwd_color_truncated_dirs 5F5F87
 end
