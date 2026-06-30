@@ -23,12 +23,9 @@ if not command -q pnpm
     chezmoi apply ~/.config/fish/config.fish
 end
 
-
-cargo install --locked bat
-
 # Parallel arrays: apt package name -> cargo crate (empty = no fallback)
-set -l apt_packages  git-delta  ripgrep   fd-find
-set -l cargo_crates  git-delta  ripgrep   fd-find
+set -l apt_packages  git-delta  ripgrep  fd-find  bat
+set -l cargo_crates  git-delta  ripgrep  fd-find  bat
 
 set -l apt_to_install
 set -l cargo_to_install
