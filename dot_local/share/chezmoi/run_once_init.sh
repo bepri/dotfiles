@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-sudo apt update
-sudo apt upgrade -y
+DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a sudo apt update
+DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=a sudo apt upgrade -y
 
 if ! command -v fish &>/dev/null; then
     if ! apt-cache show fish &>/dev/null; then

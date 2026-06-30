@@ -34,9 +34,7 @@ function lxc-launch
          'until systemctl is-active --quiet default.target 2>/dev/null; do sleep 1; done'
 
      echo "Installing fish and creating imani user..."
-     lxc exec $container -- bash -c '
-         export DEBIAN_FRONTEND=noninteractive
-         export NEEDRESTART_MODE=a
+     lxc exec --env DEBIAN_FRONTEND=noninteractive --env NEEDRESTART_MODE=a $container -- bash -c '
          add-apt-repository -y ppa:fish-shell/release-4
          apt-get update
          apt-get install -y -q fish
@@ -50,7 +48,7 @@ function lxc-launch
          sh -c 'sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin'
 
      # Run chezmoi as imani with a proper logind session
-     lxc exec $container -- su -l imani -c \
+     lxc exec --env DEBIAN_FRONTEND=noninteractive --env NEEDRESTART_MODE=a $container -- su -l imani -c \
          'chezmoi init --apply https://github.com/bepri/dotfiles'
 
      echo "Done. Container $container is ready."
