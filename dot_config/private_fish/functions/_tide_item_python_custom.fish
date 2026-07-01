@@ -1,5 +1,6 @@
 function _tide_item_python_custom
     if test -n "$VIRTUAL_ENV"
+        string match -qr "^.*/(?<dir>.*)/(?<base>.*)" $VIRTUAL_ENV
         # pipenv $VIRTUAL_ENV looks like /home/ilan/.local/share/virtualenvs/pipenv_project-EwRYuc3l
         # Detect whether we are using pipenv by looking for 'virtualenvs'. If so, remove the hash at the end.
         if test "$dir" = virtualenvs
