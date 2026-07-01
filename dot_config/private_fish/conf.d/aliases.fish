@@ -1,4 +1,4 @@
-if file -f $HOME/.cargo/bin/bat
+if test -f $HOME/.cargo/bin/bat
     alias cat $HOME/.cargo/bin/bat
 else if command -q batcat
     alias cat $(which batcat)
