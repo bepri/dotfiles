@@ -1,4 +1,4 @@
-function _tide_item_git_custom
+function _tide_item_git
     if git branch --show-current 2>/dev/null | string shorten -"$tide_git_truncation_strategy"m$tide_git_truncation_length | read -l location
         git rev-parse --git-dir --is-inside-git-dir | read -fL gdir in_gdir
         set location $_tide_location_color$location
@@ -50,7 +50,7 @@ function _tide_item_git_custom
 (0|(?<dirty>.*))\n(0|(?<untracked>.*))(\n(0|(?<behind>.*))\t(0|(?<ahead>.*)))?' \
         "$(git $_set_dir_opt stash list 2>/dev/null | count
         string match -r ^UU $stat | count
-        string match -r ^[ADMR]. $stat | count
+        string match -r ^[ADMR] $stat | count
         string match -r ^.[ADMR] $stat | count
         string match -r '^\?\?' $stat | count
         git rev-list --count --left-right @{upstream}...HEAD 2>/dev/null)"
@@ -61,7 +61,7 @@ function _tide_item_git_custom
         set -g tide_git_bg_color $tide_git_bg_color_unstable
     end
 
-    _tide_print_item git (set_color white; echo -ns $location
+    _tide_print_item git $_tide_location_color (set_color white; echo -ns $location
         set_color $tide_git_color_operation; echo -ns ' '$operation ' '$step/$total_steps
         set_color $tide_git_color_upstream; echo -ns ' ⇣'$behind ' ⇡'$ahead
         set_color $tide_git_color_stash; echo -ns ' *'$stash
