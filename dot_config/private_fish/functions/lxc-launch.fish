@@ -68,6 +68,8 @@ function lxc-launch
          apt-get update
          apt-get install -y -q fish
          useradd -m -s /usr/bin/fish -G sudo imani
+         # Home dir may pre-exist (root-owned) if disk devices created mount parents
+         chown imani:imani /home/imani
          echo "imani ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/imani
          chmod 0440 /etc/sudoers.d/imani
      '
