@@ -92,7 +92,10 @@ return {
       end, { desc = '[O]pen [T]erminal' })
       vim.keymap.set('n', '<leader>slop', function()
         Snacks.terminal.toggle 'fish -ic sloperate'
-      end, { desc = 'Toggle sloperate' })
+      end, { desc = 'Toggle sloperate (read-only)' })
+      vim.keymap.set('n', '<leader>sloP', function()
+        Snacks.terminal.toggle 'fish -ic "sloperate --write"'
+      end, { desc = 'Toggle sloperate (read-write)' })
     end,
   },
 }

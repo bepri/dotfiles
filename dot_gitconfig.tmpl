@@ -1,7 +1,19 @@
+{{- $container_type := env "CHEZMOI_CONTAINER_TYPE" }}
 [user]
+{{- if eq $container_type "ai" }}
+	name = dangertoaster
+	email = 343128880+dangertoaster@users.noreply.github.com
+	signingKey = ~/.ssh/dangertoaster_sign.pub
+{{- else }}
 	email = imani.pelton@canonical.com
 	name = Imani Pelton
 	signingKey = {{ .key_id }}
+{{- end }}
+{{- if eq $container_type "ai" }}
+
+[gpg]
+	format = ssh
+{{- end }}
 
 [init]
 	defaultBranch = main
