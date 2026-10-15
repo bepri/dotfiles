@@ -13,6 +13,10 @@
 
 [gpg]
 	format = ssh
+
+# Route raw git's HTTPS auth through gh so GH_TOKEN covers fetch/push too
+[credential "https://github.com"]
+	helper = !gh auth git-credential
 {{- end }}
 
 [init]
