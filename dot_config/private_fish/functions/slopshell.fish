@@ -4,5 +4,6 @@ function slopshell
         --env USER=imani              \
         --env LOGNAME=imani           \
         --env SHELL=/bin/bash         \
-        copilot -- /bin/bash -l
+        --env PATH="$PATH"            \
+        opencode -- /bin/bash -l
 end

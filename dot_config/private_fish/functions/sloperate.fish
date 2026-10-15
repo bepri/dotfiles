@@ -4,5 +4,6 @@ function sloperate
         --env USER=imani              \
         --env LOGNAME=imani           \
         --env SHELL=/bin/bash         \
-        copilot -- gh copilot -- --add-dir "$PWD" $argv
+        --env PATH="$PATH"            \
+        opencode -- opencode $argv
 end
