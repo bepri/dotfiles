@@ -23,7 +23,7 @@ function slopshell
         --env HOME=/home/imani        \
         --env USER=imani              \
         --env LOGNAME=imani           \
-        --env SHELL=/bin/bash         \
+        --env SHELL=/usr/bin/fish     \
         --env PATH="$PATH"            \
         --env GH_TOKEN="$gh_token"    \
         opencode -- /bin/bash -l
