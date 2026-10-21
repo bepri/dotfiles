@@ -80,6 +80,10 @@ vim.keymap.set('i', '<C-S-Left>', '<C-o>vb', { desc = 'Select to previous word s
 vim.keymap.set('v', '<C-S-Right>', 'w', { desc = 'Extend selection to next word start' })
 vim.keymap.set('v', '<C-S-Left>', 'b', { desc = 'Extend selection to previous word start' })
 
+-- Ctrl+Click opens the file under the cursor, like VSCode. Requires a terminal
+-- that passes mouse events through (kitty does).
+vim.keymap.set('n', '<C-LeftMouse>', '<LeftMouse>gf', { desc = 'Open file under cursor' })
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')

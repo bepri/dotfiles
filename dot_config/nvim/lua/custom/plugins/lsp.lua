@@ -19,8 +19,12 @@ return {
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
-      -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-      { 'williamboman/mason.nvim', opts = {} },
+      -- Append (not prepend) mason's bin dir to PATH so tools already on the
+      -- system PATH (ty, ruff, etc.) take precedence over mason-installed copies.
+      {
+        'williamboman/mason.nvim',
+        opts = { PATH = 'append' },
+      },
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
@@ -239,15 +243,12 @@ return {
       -- `mason` had to be setup earlier: to configure its options see the
       -- `dependencies` table for `nvim-lspconfig` above.
       --
-      -- You can add other tools here that you want Mason to install
-      -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-        -- Fallback when a project doesn't have prettier in its devDependencies.
-        'prettier',
-      })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      -- Only stylua is managed by mason. Everything else (ty, ruff, ts_ls,
+      -- eslint, ...) comes from the system/project so the LSP uses the same
+      -- versions as the shell.
+      require('mason-tool-installer').setup {
+        ensure_installed = { 'stylua' },
+      }
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
