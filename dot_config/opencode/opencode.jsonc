@@ -1,0 +1,41 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "github-copilot/kimi-k3",
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v2/mcp",
+      "enabled": true
+    }
+  },
+  "permission": {
+    "bash": {
+      // Mode-agnostic footguns only. Git mutation scoping (RO vs RW) is
+      // enforced via GH_TOKEN capability + AGENTS.md rules, not here.
+      "*": "allow",
+      "git push --force*": "ask",
+      "git push * --delete*": "ask",
+      "git push * main": "ask",
+      "git push * master": "ask",
+      "gh repo delete*": "ask",
+      "gh repo archive*": "ask",
+      "sudo *": "ask",
+      "rm -rf /*": "deny"
+    },
+    "edit": {
+      "*": "allow",
+      "/mnt/host-home/**": "deny"
+    },
+    "external_directory": {
+      "/tmp/**": "allow",
+      "/mnt/host-home/**": "allow"
+    },
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "~/dev/**": "allow",
+      "~/work/**": "allow"
+    }
+  }
+}
