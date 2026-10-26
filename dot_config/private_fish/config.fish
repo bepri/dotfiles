@@ -26,7 +26,7 @@ for dir in $extra_paths
 end
 set -e extra_paths
 
-set -Ux EDITOR "zed -w"
+set -Ux EDITOR "$(which nvim)"
 set -Ux VISUAL "$EDITOR"
 set -Ux SUDO_EDITOR "$EDITOR"
 set -Ux VIRTUAL_ENV_DISABLE_PROMPT true
