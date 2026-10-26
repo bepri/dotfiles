@@ -17,9 +17,12 @@ function slopshell
         end
     end
 
+    # Container user is always imani; map any host home dir to theirs
+    set -l cwd (string replace -r -- '^/home/[^/]+' /home/imani $PWD)
+
     # --user 1001: imani's UID in Ubuntu cloud images (ubuntu preseeds 1000);
     # container has raw.idmap "both 1000 1001" mapping it to host UID 1000
-    lxc exec --user 1001 --cwd "$PWD" \
+    lxc exec --user 1001 --cwd "$cwd" \
         --env HOME=/home/imani        \
         --env USER=imani              \
         --env LOGNAME=imani           \
