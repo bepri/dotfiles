@@ -149,7 +149,7 @@ return {
     config = function()
       -- Highlighting is provided by Neovim core; nvim-treesitter only ships
       -- parsers and queries. Install the parsers we rely on.
-      require('nvim-treesitter').install { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'query', 'vim', 'vimdoc', 'yaml' }
+      require('nvim-treesitter').install { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'query', 'toml', 'vim', 'vimdoc', 'yaml' }
 
       -- Enable treesitter highlighting for every filetype that has a parser.
       vim.api.nvim_create_autocmd('FileType', {
