@@ -48,11 +48,12 @@ function lxc-launch
          return 0
      end
 
-     if test "$container_type" = ai
-         echo "Configuring idmap and shared mounts..."
-         # imani is UID 1001 in Ubuntu cloud images (ubuntu user takes 1000)
-         lxc config set $container raw.idmap "both 1000 1001"
-         lxc restart $container
+      if test "$container_type" = ai
+          echo "Configuring idmap and shared mounts..."
+          # imani is UID 1001 in Ubuntu cloud images (ubuntu user takes 1000)
+          set -l idmap "uid "(id -u)" 1001\ngid "(id -g)" 1001"
+          lxc config set $container raw.idmap "$idmap"
+          lxc restart $container
          lxc config device add $container HostHome disk source=/home/imani path=/mnt/host-home readonly=true
          lxc config device add $container Personal disk source=/home/imani/dev path=/home/imani/dev
          lxc config device add $container Projects disk source=/home/imani/work path=/home/imani/work
