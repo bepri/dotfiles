@@ -122,6 +122,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Hot-reload buffers changed on disk
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'TermClose' }, {
+  desc = 'Reload buffers changed on disk (agent edits)',
+  group = vim.api.nvim_create_augroup('auto-reload-changed-buffers', { clear = true }),
+  callback = function()
+    if vim.fn.getcmdwintype() == '' then -- don't run while the command window is open
+      vim.cmd 'checktime'
+    end
+  end,
+})
+
+-- Manual fallback: force-reload the current buffer from disk.
+vim.keymap.set('n', '<leader>br', '<cmd>checktime<cr>', { desc = '[B]uffer [R]eload from disk' })
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
