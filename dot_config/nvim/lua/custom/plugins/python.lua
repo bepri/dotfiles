@@ -7,7 +7,7 @@ local neotest_dap_args = { justMyCode = false }
 return {
   {
     'linux-cultist/venv-selector.nvim',
-    dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
+    dependencies = { 'neovim/nvim-lspconfig', 'mfussenegger/nvim-dap-python' },
     branch = 'main',
     -- Defaults cover the common case: built-in searches find `.venv` etc.,
     -- and your last-selected venv is cached + auto-activated per workspace.
