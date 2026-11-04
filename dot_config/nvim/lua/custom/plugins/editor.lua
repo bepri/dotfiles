@@ -92,14 +92,36 @@ return {
       },
     },
     init = function()
+      -- Toggleable terminals that share a single bottom-split "space".
+      -- Each command gets its own persistent terminal (separate `count` id), so
+      -- all three keep running in the background; opening one hides whichever is
+      -- currently visible instead of killing it, so exactly one is shown.
+      local term_opts = { win = { position = 'bottom' } }
+      local terms = {
+        { count = 1 }, -- plain shell
+        { count = 2, cmd = 'fish -ic sloperate' }, -- sloperate (read-only)
+        { count = 3, cmd = 'fish -ic "sloperate --write"' }, -- sloperate (read-write)
+      }
+      local function toggle_term(t)
+        -- Hide any other terminal currently occupying the shared space.
+        for _, other in ipairs(Snacks.terminal.list()) do
+          if other.win and vim.api.nvim_win_is_valid(other.win) then
+            local st = vim.b[other.buf].snacks_terminal
+            if not (st and st.id == t.count) then
+              other:hide()
+            end
+          end
+        end
+        Snacks.terminal.toggle(t.cmd, vim.tbl_extend('force', term_opts, { count = t.count }))
+      end
       vim.keymap.set('n', '<leader>ot', function()
-        Snacks.terminal.toggle()
+        toggle_term(terms[1])
       end, { desc = '[O]pen [T]erminal' })
       vim.keymap.set('n', '<leader>slop', function()
-        Snacks.terminal.toggle 'fish -ic sloperate'
+        toggle_term(terms[2])
       end, { desc = 'Toggle sloperate (read-only)' })
       vim.keymap.set('n', '<leader>sloP', function()
-        Snacks.terminal.toggle 'fish -ic "sloperate --write"'
+        toggle_term(terms[3])
       end, { desc = 'Toggle sloperate (read-write)' })
 
       -- [[ Search keymaps (snacks.picker; formerly telescope) ]]
